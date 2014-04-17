@@ -42,6 +42,12 @@ else enum Derelict_OS_Posix = false;
 version( Android ) enum Derelict_OS_Android = true;
 else enum Derelict_OS_Android = false;
 
+/*version( iOS ) enum Derelict_OS_iOS = true;
+else*/ enum Derelict_OS_iOS = false;
+
+/*version( WindowsRT ) enum Derelict_OS_WindowsRT = true;
+else*/ enum Derelict_OS_WindowsRT = false;
+
 version( FreeBSD ) {
 	enum Derelict_OS_AnyBSD = true;
 	enum Derelict_OS_FreeBSD = true;
