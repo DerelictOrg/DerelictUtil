@@ -30,6 +30,7 @@ module derelict.util.sharedlib;
 private {
     import std.string;
     import std.conv;
+    import std.functional : toDelegate;
 
     import derelict.util.exception;
     import derelict.util.system;
@@ -230,10 +231,7 @@ struct SharedLib {
                                 a string as the sole parameter.
             +/
             void missingSymbolCallback( MissingSymbolCallbackFunc callback ) {
-                ShouldThrow thunk( string symbolName ) {
-                    return callback( symbolName );
-                }
-                _onMissingSym = &thunk;
+                _onMissingSym = toDelegate(callback);
             }
         }
     }
