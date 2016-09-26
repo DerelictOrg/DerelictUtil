@@ -342,9 +342,16 @@ abstract class SharedLibLoader {
          Throws:        SymbolLoadException if doThrow is true and a the symbol
                         specified by funcName is missing from the shared library.
         +/
-        final void bindFunc(void** ptr, string funcName, bool doThrow = true) {
+		final void bindFunc(void** ptr, string funcName, bool doThrow = true) {
             void* func = loadSymbol(funcName, doThrow);
             *ptr = func;
         }
+
+		import std.traits;
+		final void bindFunc(TFUN)(ref TFUN fun, string funcName, bool doThrow = true) if(isFunctionPointer!(TFUN))
+		{
+			void* func = loadSymbol(funcName, doThrow);
+			fun = cast(TFUN)func;
+		}
     }
 }
