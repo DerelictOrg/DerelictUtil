@@ -346,5 +346,26 @@ abstract class SharedLibLoader {
             void* func = loadSymbol(funcName, doThrow);
             *ptr = func;
         }
+
+        /++
+         Subclasses can use this to bind a function pointer to a symbol in the
+         shared library.
+
+         Params:
+            fun =       function pointer that will be used as the bind
+                        point.
+            funcName =  The name of the symbol to be bound.
+            doThrow =   If true, a SymbolLoadException will be thrown if the symbol
+                        is missing. If false, no exception will be thrown and the
+                        ptr parameter will be set to null.
+         Throws:        SymbolLoadException if doThrow is true and a the symbol
+                        specified by funcName is missing from the shared library.
+        +/
+        import std.traits;
+        final void bindFunc(TFUN)(ref TFUN fun, string funcName, bool doThrow = true) 
+                                                            if(isFunctionPointer!(TFUN)){
+            void* func = loadSymbol(funcName, doThrow);
+            fun = cast(TFUN)func;
+        }
     }
 }
